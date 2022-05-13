@@ -9,7 +9,7 @@ using namespace std;
 
 bool checkForItemInt(vector<int> arr, int data);
 bool checkForItemInt(vector<string> arr, string data);
-void printTable(vector<int> taxis, vector<string> drivers, vector<string> plates, vector<string> models, vector<int> carYears);
+void printTable(vector<int> taxis, vector<string> drivers, vector<string> plates, vector<string> models, vector<int> carYears, vector<string> categories);
 
 int main(){
 	char response='\0';
@@ -34,7 +34,7 @@ int main(){
 	vector<string> nAdrivers;
 	vector<string> nAplates;
 	vector<string> nAmodels;
-	vector<string> nAcategories;
+	vector<string> nAcategories;	
 	vector<int> nAcarYears;
 	do{
 		system("cls");
@@ -55,6 +55,12 @@ int main(){
 						cout<<"Lo sentimos, el vehiculo debe ser del anio 2010 como minimo."<<endl;
 					}else{
 							carYears.push_back(carYear);
+							if(carYear>=2015){
+								categories.push_back("Ejecutivo");
+								
+							}else{
+								categories.push_back("Tradicional");
+							}
 				do{
 					cout<<"Taxi ID: ";
 					cin>>id;
@@ -81,7 +87,7 @@ int main(){
 			
 			break;
 			case 2:		
-				printTable(taxis, drivers, plates,models, carYears);
+				printTable(taxis, drivers, plates,models, carYears, categories);
 			break;
 		    case 3:
 				cout<<"Really wanna send first avialable taxi? (Y/N): ";
@@ -95,35 +101,38 @@ int main(){
 					nAplates.push_back(plates.at(0));					
 					nAmodels.push_back(models.at(0));
 					nAcarYears.push_back(carYears.at(0));
+					nAcategories.push_back(categories.at(0));
 					//Deleting items from avaialable arrays
 					taxis.erase(taxis.begin());
 					drivers.erase(drivers.begin());
 					plates.erase(plates.begin());
 					carYears.erase(carYears.begin());
 					models.erase(models.begin());
+					categories.erase(categories.begin());
 					
 				}
-				printTable(taxis, drivers, plates,models, carYears);
+				printTable(taxis, drivers, plates,models, carYears, categories);
 			break;
 			case 4:
 				cout<<"Taxis in route: "<<endl;
-				printTable(nAtaxis, nAdrivers, nAplates, nAmodels, nAcarYears);
+				printTable(nAtaxis, nAdrivers, nAplates, nAmodels, nAcarYears, nAcategories);
 			break;
 			case 5:
 				cout<<"Which taxi would you like to reinsert? "<<endl;
-				printTable(nAtaxis, nAdrivers, nAplates, nAmodels, nAcarYears);
+				printTable(nAtaxis, nAdrivers, nAplates, nAmodels, nAcarYears, nAcategories);
 				cout<<"\nPlease, input order below: ";
 				cin>>idToReinsert;
 				taxis.push_back(nAtaxis.at(idToReinsert));
 				drivers.push_back(nAdrivers.at(idToReinsert));
 				plates.push_back(nAplates.at(idToReinsert));
 				models.push_back(nAmodels.at(idToReinsert));
+				categories.push_back(nAcategories.at(idToReinsert));
 				carYears.push_back(nAcarYears.at(idToReinsert));
 				nAtaxis.erase(nAtaxis.begin()+idToReinsert);
 				nAdrivers.erase(nAdrivers.begin()+idToReinsert);
 				nAplates.erase(nAplates.begin()+idToReinsert);
 				nAmodels.erase(nAmodels.begin()+idToReinsert);
-				
+				nAcategories.erase(nAcategories.begin()+idToReinsert);
 				cout<<"Taxi has been already inserted to avialable queue"<<endl;
 			break;
 			case 6:
@@ -170,7 +179,7 @@ bool checkForItemInt(vector<string> arr, string data){
 	}		
 }
 
-void printTable(vector<int> taxis, vector<string> drivers, vector<string> plates, vector<string> models, vector<int> carYears)
+void printTable(vector<int> taxis, vector<string> drivers, vector<string> plates, vector<string> models, vector<int> carYears, vector<string> categories)
 {
 	TextTable t( '-', '|', '+' );
 	t.add("Order");
@@ -179,6 +188,7 @@ void printTable(vector<int> taxis, vector<string> drivers, vector<string> plates
 	t.add("Plate Number");
 	t.add("Year");
 	t.add("Model");
+	t.add("Category");
      t.endOfRow();
 		
 	for(int i=0; i<taxis.size();i++)
@@ -189,6 +199,7 @@ void printTable(vector<int> taxis, vector<string> drivers, vector<string> plates
 		t.add(plates.at(i));	
 		t.add(to_string(carYears.at(i)));
 		t.add(models.at(i));
+		t.add(categories.at(i));		
 		t.endOfRow();	
 	}
 	t.setAlignment( 2, TextTable::Alignment::RIGHT );
