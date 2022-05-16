@@ -1,4 +1,5 @@
 #include<iostream>
+#include <algorithm>
 #include<vector>
 #include<iomanip>
 #include<string>
@@ -22,6 +23,9 @@ int main(){
 	string motorNumber;
 	string modelo;
 	string category;
+	string selectedCategory;
+	string confirmacion;
+	int categoryPosition;
 	int carYear;
 	cout<<"Taxi sistema \t\n";
 	vector<int> taxis;
@@ -90,12 +94,67 @@ int main(){
 				printTable(taxis, drivers, plates,models, carYears, categories);
 			break;
 		    case 3:
-				cout<<"Really wanna send first avialable taxi? (Y/N): ";
-				confirmation=getch();
-				cout<<"\n";
-				if(confirmation=='Y' || confirmation=='y')
-				{
-					//Adding Items to non avaialable vectors
+			
+						cout<<"Escriba E para seleccionar taxi ejecutivo o cualquier otra para tradicional (E/T): \n";
+						cin.ignore();
+				    getline(cin,selectedCategory);
+					if(selectedCategory=="E" || selectedCategory=="e"){
+						// using the find function to search the element proving all the parameters
+auto res = std::find (categories.begin(), categories.end(), "Ejecutivo");
+//checking if the variable 'res' has index 
+if (res != categories.end())
+{
+
+categoryPosition= res - categories.begin() + 1 ;
+	//Adding Items to non avaialable vectors
+					nAtaxis.push_back(taxis.at(categoryPosition));
+					nAdrivers.push_back(drivers.at(categoryPosition));
+					nAplates.push_back(plates.at(categoryPosition));					
+					nAmodels.push_back(models.at(categoryPosition));
+					nAcarYears.push_back(carYears.at(categoryPosition));
+					nAcategories.push_back(categories.at(categoryPosition));
+					//Deleting items from avaialable arrays
+					taxis.erase(taxis.begin() + categoryPosition);
+					drivers.erase(drivers.begin() + categoryPosition);
+					plates.erase(plates.begin() + categoryPosition);
+					carYears.erase(carYears.begin() + categoryPosition);
+					models.erase(models.begin() + categoryPosition);
+					categories.erase(categories.begin() + categoryPosition);
+}
+else{
+cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";	
+}
+
+}else{
+		// using the find function to search the element proving all the parameters
+auto res = std::find (categories.begin(), categories.end(), "Tradicional");
+//checking if the variable 'res' has index 
+if (res != categories.end())
+{
+
+categoryPosition= res - categories.begin() + 1 ;
+	//Adding Items to non avaialable vectors
+					nAtaxis.push_back(taxis.at(categoryPosition));
+					nAdrivers.push_back(drivers.at(categoryPosition));
+					nAplates.push_back(plates.at(categoryPosition));					
+					nAmodels.push_back(models.at(categoryPosition));
+					nAcarYears.push_back(carYears.at(categoryPosition));
+					nAcategories.push_back(categories.at(categoryPosition));
+					//Deleting items from avaialable arrays
+					taxis.erase(taxis.begin() + categoryPosition);
+					drivers.erase(drivers.begin() + categoryPosition);
+					plates.erase(plates.begin() + categoryPosition);
+					carYears.erase(carYears.begin() + categoryPosition);
+					models.erase(models.begin() + categoryPosition);
+					categories.erase(categories.begin() + categoryPosition);
+}
+else{
+cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";	
+}
+}
+					
+					
+					/*Adding Items to non avaialable vectors
 					nAtaxis.push_back(taxis.at(0));
 					nAdrivers.push_back(drivers.at(0));
 					nAplates.push_back(plates.at(0));					
@@ -108,9 +167,9 @@ int main(){
 					plates.erase(plates.begin());
 					carYears.erase(carYears.begin());
 					models.erase(models.begin());
-					categories.erase(categories.begin());
+					categories.erase(categories.begin());*/
 					
-				}
+				
 				printTable(taxis, drivers, plates,models, carYears, categories);
 			break;
 			case 4:
