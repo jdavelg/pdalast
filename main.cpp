@@ -6,6 +6,8 @@
 #include<conio.h>
 #include "Textable.h"
 
+
+//ESTUDIANTE: JONATHAN DAVID LOPEZ GARCIA LG221728
 using namespace std;
 
 bool checkForItemInt(vector<int> arr, int data);
@@ -23,6 +25,9 @@ int main(){
 	string motorNumber;
 	string modelo;
 	string category;
+	string startPlace;
+	string endPlace;
+	float price;
 	string selectedCategory;
 	string confirmacion;
 	int categoryPosition;
@@ -54,6 +59,7 @@ int main(){
 		switch(option){
 			case 1:
 					cout<<"anio del taxi: ";
+						cin.ignore();
 					cin>>carYear;	
 					if(carYear<2010){
 						cout<<"Lo sentimos, el vehiculo debe ser del anio 2010 como minimo."<<endl;
@@ -66,7 +72,8 @@ int main(){
 								categories.push_back("Tradicional");
 							}
 				do{
-					cout<<"Taxi ID: ";
+					cout<<"Escriba el ID del taxi (NUMERO): ";
+						cin.ignore();
 					cin>>id;
 				}while(checkForItemInt(taxis, id));
 				taxis.push_back(id);
@@ -88,7 +95,7 @@ int main(){
 					getline(cin,modelo);			
 				models.push_back(modelo);
 					}		
-			
+				cout<<"El taxi ha sido guardado con exito \n";
 			break;
 			case 2:		
 				printTable(taxis, drivers, plates,models, carYears, categories);
@@ -105,21 +112,33 @@ auto res = std::find (categories.begin(), categories.end(), "Ejecutivo");
 if (res != categories.end())
 {
 
-categoryPosition= res - categories.begin() + 1 ;
-	//Adding Items to non avaialable vectors
+categoryPosition= res - categories.begin(); //+ 1 ;
+
+	cout<<"escriba la tarifa para el viaje (numeros) \n";
+						cin.ignore();
+						cin>>price;
+cout<<"Escriba el punto de partida \n";
+						cin.ignore();
+				    getline(cin,startPlace);
+				    cout<<"Escriba el destino del viaje \n";
+						cin.ignore();
+				    getline(cin,endPlace);
+//cout<<"Ese dato ya esta registrado en la posicion ["<<categoryPosition<<"].\nPor favor ingrese uno diferente.\n";
+	//agregamos el taxi a no disponible
 					nAtaxis.push_back(taxis.at(categoryPosition));
 					nAdrivers.push_back(drivers.at(categoryPosition));
 					nAplates.push_back(plates.at(categoryPosition));					
 					nAmodels.push_back(models.at(categoryPosition));
 					nAcarYears.push_back(carYears.at(categoryPosition));
 					nAcategories.push_back(categories.at(categoryPosition));
-					//Deleting items from avaialable arrays
+					//borramos el taxi en los regitros disponibles
 					taxis.erase(taxis.begin() + categoryPosition);
 					drivers.erase(drivers.begin() + categoryPosition);
 					plates.erase(plates.begin() + categoryPosition);
 					carYears.erase(carYears.begin() + categoryPosition);
 					models.erase(models.begin() + categoryPosition);
 					categories.erase(categories.begin() + categoryPosition);
+					cout<<"El taxi ha sido enviado exitosamente, puede revisarlo en la lista de taxis en ruta \n";
 }
 else{
 cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";	
@@ -132,21 +151,22 @@ auto res = std::find (categories.begin(), categories.end(), "Tradicional");
 if (res != categories.end())
 {
 
-categoryPosition= res - categories.begin() + 1 ;
-	//Adding Items to non avaialable vectors
+categoryPosition= res - categories.begin(); //+ 1 ;
+		//agregamos el taxi a no disponible
 					nAtaxis.push_back(taxis.at(categoryPosition));
 					nAdrivers.push_back(drivers.at(categoryPosition));
 					nAplates.push_back(plates.at(categoryPosition));					
 					nAmodels.push_back(models.at(categoryPosition));
 					nAcarYears.push_back(carYears.at(categoryPosition));
 					nAcategories.push_back(categories.at(categoryPosition));
-					//Deleting items from avaialable arrays
+						//borramos el taxi en los regitros disponibles
 					taxis.erase(taxis.begin() + categoryPosition);
 					drivers.erase(drivers.begin() + categoryPosition);
 					plates.erase(plates.begin() + categoryPosition);
 					carYears.erase(carYears.begin() + categoryPosition);
 					models.erase(models.begin() + categoryPosition);
 					categories.erase(categories.begin() + categoryPosition);
+					cout<<"El taxi ha sido enviado exitosamente, puede revisarlo en la lista de taxis en ruta \n";
 }
 else{
 cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";	
@@ -154,7 +174,7 @@ cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";
 }
 					
 					
-					/*Adding Items to non avaialable vectors
+					/*
 					nAtaxis.push_back(taxis.at(0));
 					nAdrivers.push_back(drivers.at(0));
 					nAplates.push_back(plates.at(0));					
@@ -170,16 +190,16 @@ cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";
 					categories.erase(categories.begin());*/
 					
 				
-				printTable(taxis, drivers, plates,models, carYears, categories);
+				//printTable(taxis, drivers, plates,models, carYears, categories);
 			break;
 			case 4:
-				cout<<"Taxis in route: "<<endl;
+				cout<<"Taxis en ruta: "<<endl;
 				printTable(nAtaxis, nAdrivers, nAplates, nAmodels, nAcarYears, nAcategories);
 			break;
 			case 5:
-				cout<<"Which taxi would you like to reinsert? "<<endl;
+				cout<<"Cual taxi desea poner como disponible? "<<endl;
 				printTable(nAtaxis, nAdrivers, nAplates, nAmodels, nAcarYears, nAcategories);
-				cout<<"\nPlease, input order below: ";
+				cout<<"\nPor favor ingrese el numero de orden del taxi: ";
 				cin>>idToReinsert;
 				taxis.push_back(nAtaxis.at(idToReinsert));
 				drivers.push_back(nAdrivers.at(idToReinsert));
@@ -192,7 +212,7 @@ cout<<"Lo sentimos, no hay taxis disponibles de la categoria seleccionada ";
 				nAplates.erase(nAplates.begin()+idToReinsert);
 				nAmodels.erase(nAmodels.begin()+idToReinsert);
 				nAcategories.erase(nAcategories.begin()+idToReinsert);
-				cout<<"Taxi has been already inserted to avialable queue"<<endl;
+				cout<<"El taxi ya se encuentra como disponible"<<endl;
 			break;
 			case 6:
 				cout<<"Ha finalidado la ejecucion del programa...";
@@ -213,7 +233,7 @@ bool checkForItemInt(vector<int> arr, int data){
 	{
 		if(arr.at(i)==data)
 		{
-			cout<<"Data is already registered at position ["<<i<<"].\nPlease Enter Data again.\n";
+			cout<<"Ese dato ya esta registrado en la posicion ["<<i<<"].\nPor favor ingrese uno diferente.\n";
 			return true;
 		}
 		else
@@ -228,7 +248,7 @@ bool checkForItemInt(vector<string> arr, string data){
 	{
 	if(arr.at(i)==data)
 		{
-			cout<<"Data is already registered at position ["<<i<<"].\nPlease Enter Data again.\n";
+			cout<<"Ese dato ya esta registrado en la posicion  ["<<i<<"].\nPor favor ingrese uno diferente.	\n";
 			return true;
 		}
 		else
